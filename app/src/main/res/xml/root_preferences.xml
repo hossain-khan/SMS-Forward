@@ -38,6 +38,7 @@
             android:selectAllOnFocus="true"
             android:singleLine="true"
             android:title="@string/target_title_telegram"
+            app:summary="@string/key_target_telegram_summary"
             app:iconSpaceReserved="false" />
         <EditTextPreference
             android:defaultValue=""

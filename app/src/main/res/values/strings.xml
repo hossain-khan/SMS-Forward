@@ -14,6 +14,7 @@
     <string name="header_telegram">Forward via Telegram</string>
     <string name="enable_telegram">Enable Telegram</string>
     <string name="key_target_telegram">key_target_telegram</string>
+    <string name="key_target_telegram_summary">Eg. 123456789</string>
     <string name="key_telegram_apikey">key_telegram_apikey</string>
     <string name="target_title_telegram">Target Telegram ID</string>
     <string name="title_telegram_apikey">Telegram API KEY</string>
