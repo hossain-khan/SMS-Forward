@@ -47,6 +47,10 @@ public class MainActivity extends AppCompatActivity {
             String prefSummaryDefault = getString(prefDefaultSummaryRes);
             String prefSummaryValue = sharedPreferences.getString(prefKey, prefSummaryDefault);
 
+            if(prefSummaryValue.equals("")) {
+                prefSummaryValue = prefSummaryDefault;
+            }
+
             final EditTextPreference editTextPreference = (EditTextPreference) findPreference(prefKey);
             editTextPreference.setSummary(prefSummaryValue);
 
