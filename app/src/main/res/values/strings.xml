@@ -19,6 +19,22 @@
     <string name="target_title_telegram">Target Telegram ID</string>
     <string name="title_telegram_apikey">Telegram API KEY</string>
 
+    <!-- Rocket.Chat -->
+    <string name="key_enable_rocket_chat">key_enable_rocket_chat</string>
+    <string name="header_rocket_chat">Forward via Rocket.Chat</string>
+    <string name="enable_rocket_chat">Enable Rocket.Chat</string>
+    <string name="key_rocket_chat_base_url">key_rocket_chat_base_url</string>
+    <string name="key_rocket_chat_base_url_title">Base URL</string>
+    <string name="key_rocket_chat_base_url_summary">Eg. http://chat.mycompany.com:3000</string>
+    <string name="key_rocket_chat_user_id">key_target_rocket_chat</string>
+    <string name="key_rocket_chat_user_id_title">User ID</string>
+    <string name="key_rocket_chat_user_id_summary">Eg. Pw224kx5x3R8b</string>
+    <string name="key_rocket_chat_auth_key">key_rocket_chat_apikey</string>
+    <string name="key_rocket_chat_auth_key_title">Auth Key</string>
+    <string name="key_rocket_chat_channel">key_rocket_chat_channel</string>
+    <string name="channel_title_rocket_chat">Channel Name</string>
+    <string name="channel_title_rocket_chat_summary">eg. #my-sms</string>
+
     <!-- Web -->
     <string name="key_enable_web">key_enable_web</string>
     <string name="header_web">Forward via Web</string>

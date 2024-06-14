@@ -39,7 +39,14 @@ public class MainActivity extends AppCompatActivity {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
             sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
             updateValues(R.string.key_target_sms, R.string.target_summary_sms);
+
+            // Preview telegram values
             updateValues(R.string.key_target_telegram, R.string.key_target_telegram_summary);
+
+            // Preview Rocket Chat values
+            updateValues(R.string.key_rocket_chat_base_url, R.string.key_rocket_chat_base_url_summary);
+            updateValues(R.string.key_rocket_chat_user_id, R.string.key_rocket_chat_user_id_summary);
+            updateValues(R.string.key_rocket_chat_channel, R.string.channel_title_rocket_chat_summary);
         }
 
         public void updateValues(@StringRes int prefKeyRes, @StringRes int prefDefaultSummaryRes) {

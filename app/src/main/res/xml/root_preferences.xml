@@ -50,6 +50,49 @@
 
     </PreferenceCategory>
 
+
+    <PreferenceCategory
+        app:title="@string/header_rocket_chat"
+        app:iconSpaceReserved="false">
+
+        <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
+            android:key="@string/key_enable_rocket_chat"
+            app:title="@string/enable_rocket_chat" />
+        <EditTextPreference
+            android:defaultValue=""
+            android:key="@string/key_rocket_chat_base_url"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/key_rocket_chat_base_url_title"
+            app:summary="@string/key_rocket_chat_base_url_summary"
+            app:iconSpaceReserved="false" />
+        <EditTextPreference
+            android:defaultValue=""
+            android:key="@string/key_rocket_chat_user_id"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/key_rocket_chat_user_id_title"
+            app:summary="@string/key_rocket_chat_user_id_summary"
+            app:iconSpaceReserved="false" />
+        <EditTextPreference
+            android:defaultValue=""
+            android:key="@string/key_rocket_chat_auth_key"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/key_rocket_chat_auth_key_title"
+            app:iconSpaceReserved="false" />
+        <EditTextPreference
+            android:defaultValue=""
+            android:key="@string/key_rocket_chat_channel"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/channel_title_rocket_chat"
+            android:summary="@string/channel_title_rocket_chat_summary"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
     <PreferenceCategory
         app:title="@string/header_web"
         app:iconSpaceReserved="false">

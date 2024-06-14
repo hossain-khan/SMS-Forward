@@ -27,7 +27,14 @@ public class SMSReceiver extends BroadcastReceiver {
         final String targetTelegram = sharedPreferences.getString(context.getString(R.string.key_target_telegram), "");
         final String telegramToken = sharedPreferences.getString(context.getString(R.string.key_telegram_apikey), "");
 
-        if (!enableSMS && !enableTelegram && !enableWeb) return;
+        final boolean enableRocketChat = sharedPreferences.getBoolean(context.getString(R.string.key_enable_rocket_chat), false);
+        final String rocketChatBaseUrl = sharedPreferences.getString(context.getString(R.string.key_rocket_chat_base_url), "");
+        final String rocketChatUserId = sharedPreferences.getString(context.getString(R.string.key_rocket_chat_user_id), "");
+        final String rocketChatToken = sharedPreferences.getString(context.getString(R.string.key_rocket_chat_auth_key), "");
+        final String rocketChatChannel = sharedPreferences.getString(context.getString(R.string.key_rocket_chat_channel), "");
+
+
+        if (!enableSMS && !enableTelegram && !enableRocketChat && !enableWeb) return;
 
         final Bundle bundle = intent.getExtras();
         final Object[] pduObjects = (Object[]) bundle.get("pdus");
@@ -52,6 +59,12 @@ public class SMSReceiver extends BroadcastReceiver {
                     Forwarder.forwardViaSMS(senderNumber, rawMessageContent, targetNumber);
                 if (enableTelegram && !targetTelegram.equals("") && !telegramToken.equals(""))
                     Forwarder.forwardViaTelegram(senderNumber, rawMessageContent, targetTelegram, telegramToken);
+                if (enableRocketChat &&
+                        !rocketChatBaseUrl.equals("") &&
+                        !rocketChatUserId.equals("") &&
+                        !rocketChatChannel.equals("") &&
+                        !rocketChatToken.equals(""))
+                    Forwarder.forwardViaRocketChat(rocketChatBaseUrl, rocketChatUserId, rocketChatToken, rocketChatChannel);
                 if (enableWeb && !targetWeb.equals(""))
                     Forwarder.forwardViaWeb(senderNumber, rawMessageContent, targetWeb);
             }

@@ -31,6 +31,11 @@ public class Forwarder {
     public static void forwardViaTelegram(String senderNumber, String message, String targetTelegramID, String telegramToken) {
         new ForwardTaskForTelegram(senderNumber, message, targetTelegramID, telegramToken).execute();
     }
+
+    public static void forwardViaRocketChat(String baseUrl, String userId, String token, String channel) {
+        new ForwardTaskForRocketChat(baseUrl, userId, token, channel).execute();
+    }
+
     public static void forwardViaWeb(String senderNumber, String message, String endpoint) {
         new ForwardTaskForWeb(senderNumber, message, endpoint).execute();
     }
