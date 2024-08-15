@@ -33,7 +33,7 @@ public class ForwardTaskForTelegram extends AsyncTask<Void, Void, Void> {
                     token
                     );
         } catch (IOException e) {
-            Log.d(Forwarder.class.toString(), e.toString());
+            Log.w(Forwarder.class.toString(), e.toString());
         }
         return null;
     }

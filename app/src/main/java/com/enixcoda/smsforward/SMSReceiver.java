@@ -6,12 +6,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
+import android.util.Log;
 
 import androidx.preference.PreferenceManager;
 
 public class SMSReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
+        Log.d("SMSReceiver", "onReceive: action " + intent.getAction());
         if (!intent.getAction().equals(android.provider.Telephony.Sms.Intents.SMS_RECEIVED_ACTION))
             return;
 
@@ -34,7 +36,12 @@ public class SMSReceiver extends BroadcastReceiver {
         final String rocketChatChannel = sharedPreferences.getString(context.getString(R.string.key_rocket_chat_channel), "");
 
 
-        if (!enableSMS && !enableTelegram && !enableRocketChat && !enableWeb) return;
+        if (!enableSMS && !enableTelegram && !enableRocketChat && !enableWeb) {
+            Log.d("SMSReceiver", "onReceive: SMS Forwarding is disabled");
+            return;
+        } else {
+            Log.d("SMSReceiver", "onReceive: SMS Forwarding is enabled");
+        }
 
         final Bundle bundle = intent.getExtras();
         final Object[] pduObjects = (Object[]) bundle.get("pdus");
@@ -56,15 +63,18 @@ public class SMSReceiver extends BroadcastReceiver {
             } else {
                 // normal message, forwarded
                 if (enableSMS && !targetNumber.equals(""))
-                    Forwarder.forwardViaSMS(senderNumber, rawMessageContent, targetNumber);
+                    Log.d("SMSReceiver", "onReceive: Forwarding SMS to " + targetNumber);
+                Forwarder.forwardViaSMS(senderNumber, rawMessageContent, targetNumber);
                 if (enableTelegram && !targetTelegram.equals("") && !telegramToken.equals(""))
-                    Forwarder.forwardViaTelegram(senderNumber, rawMessageContent, targetTelegram, telegramToken);
+                    Log.d("SMSReceiver", "onReceive: Forwarding Telegram to " + targetTelegram);
+                Forwarder.forwardViaTelegram(senderNumber, rawMessageContent, targetTelegram, telegramToken);
                 if (enableRocketChat &&
                         !rocketChatBaseUrl.equals("") &&
                         !rocketChatUserId.equals("") &&
                         !rocketChatChannel.equals("") &&
                         !rocketChatToken.equals(""))
-                    Forwarder.forwardViaRocketChat(rocketChatBaseUrl, rocketChatUserId, rocketChatToken, rocketChatChannel);
+                    Log.d("SMSReceiver", "onReceive: Forwarding RocketChat to " + rocketChatChannel);
+                Forwarder.forwardViaRocketChat(rocketChatBaseUrl, rocketChatUserId, rocketChatToken, rocketChatChannel);
                 if (enableWeb && !targetWeb.equals(""))
                     Forwarder.forwardViaWeb(senderNumber, rawMessageContent, targetWeb);
             }

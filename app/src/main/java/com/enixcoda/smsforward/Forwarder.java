@@ -24,7 +24,7 @@ public class Forwarder {
                 sendSMS(forwardNumber, forwardPrefix + forwardContent);
             }
         } catch (RuntimeException e) {
-            Log.d(Forwarder.class.toString(), e.toString());
+            Log.w(Forwarder.class.toString(), e.toString());
         }
     }
 

@@ -1,11 +1,18 @@
 package com.enixcoda.smsforward;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Telephony;
+import android.util.Log;
 
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.preference.EditTextPreference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
@@ -16,17 +23,54 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Log.d("MainActivity", "onCreate: SMS Forwarder started");
 
-        requestPermissions(new String[] {
-                Manifest.permission.SEND_SMS,
-                Manifest.permission.INTERNET
-        }, 0);
+        requestRequiredPermissions();
 
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.settings, new SettingsFragment())
                     .commit();
+        }
+
+        checkDefaultSmsApp();
+    }
+
+    public void requestRequiredPermissions() {
+        Log.d("MainActivity", "requestRequiredPermissions: Checking SMS receive, send, and internet permissions");
+        String[] permissions = {
+                Manifest.permission.RECEIVE_SMS,
+                Manifest.permission.SEND_SMS,
+                Manifest.permission.INTERNET
+        };
+
+        boolean allPermissionsGranted = true;
+        for (String permission : permissions) {
+            if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+                Log.d("MainActivity", "requestRequiredPermissions: Permission not granted: " + permission);
+                allPermissionsGranted = false;
+                break;
+            }
+        }
+
+        if (!allPermissionsGranted) {
+            Log.d("MainActivity", "requestSmsReceivePermission: Requesting necessary permissions");
+            ActivityCompat.requestPermissions(this, permissions, 1);
+        } else {
+            Log.i("MainActivity", "requestSmsReceivePermission: All necessary permissions granted");
+        }
+    }
+
+    public void checkDefaultSmsApp() {
+        Log.d("MainActivity", "checkDefaultSmsApp: Checking default SMS app");
+        if (!Telephony.Sms.getDefaultSmsPackage(this).equals(getPackageName())) {
+            Log.d("MainActivity", "checkDefaultSmsApp: Setting default SMS app");
+            Intent intent = new Intent(Telephony.Sms.Intents.ACTION_CHANGE_DEFAULT);
+            intent.putExtra(Telephony.Sms.Intents.EXTRA_PACKAGE_NAME, getPackageName());
+            startActivity(intent);
+        } else {
+            Log.i("MainActivity", "checkDefaultSmsApp: Default SMS app is already set");
         }
     }
 
@@ -54,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
             String prefSummaryDefault = getString(prefDefaultSummaryRes);
             String prefSummaryValue = sharedPreferences.getString(prefKey, prefSummaryDefault);
 
-            if(prefSummaryValue.equals("")) {
+            if (prefSummaryValue.equals("")) {
                 prefSummaryValue = prefSummaryDefault;
             }
 
