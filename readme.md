@@ -19,6 +19,9 @@ Calls can be forwarded to a single phone thanks to carriers' call forwarding ser
 3. Enter the target phone number.
 4. Put down the Android phone and keep it charged for continuous service.
 
+### ⚠️Limitation
+App can't handle Rich Communication Services (RCS) chats. To avoid this issue, turn off RCS message on the phone that needs all messages to be forwarded.
+
 ## Note
 This app has only been tested on Android 7.1.1, but it should work for Android 5.0+ devices.
 
