@@ -62,21 +62,29 @@ public class SMSReceiver extends BroadcastReceiver {
                 }
             } else {
                 // normal message, forwarded
-                if (enableSMS && !targetNumber.equals(""))
+                if (enableSMS && !targetNumber.equals("")) {
                     Log.d("SMSReceiver", "onReceive: Forwarding SMS to " + targetNumber);
-                Forwarder.forwardViaSMS(senderNumber, rawMessageContent, targetNumber);
-                if (enableTelegram && !targetTelegram.equals("") && !telegramToken.equals(""))
+                    Forwarder.forwardViaSMS(senderNumber, rawMessageContent, targetNumber);
+                }
+
+                if (enableTelegram && !targetTelegram.equals("") && !telegramToken.equals("")) {
                     Log.d("SMSReceiver", "onReceive: Forwarding Telegram to " + targetTelegram);
-                Forwarder.forwardViaTelegram(senderNumber, rawMessageContent, targetTelegram, telegramToken);
+                    Forwarder.forwardViaTelegram(senderNumber, rawMessageContent, targetTelegram, telegramToken);
+                }
+
                 if (enableRocketChat &&
                         !rocketChatBaseUrl.equals("") &&
                         !rocketChatUserId.equals("") &&
                         !rocketChatChannel.equals("") &&
-                        !rocketChatToken.equals(""))
+                        !rocketChatToken.equals("")) {
                     Log.d("SMSReceiver", "onReceive: Forwarding RocketChat to " + rocketChatChannel);
-                Forwarder.forwardViaRocketChat(rocketChatBaseUrl, rocketChatUserId, rocketChatToken, rocketChatChannel);
-                if (enableWeb && !targetWeb.equals(""))
+                    Forwarder.forwardViaRocketChat(rocketChatBaseUrl, rocketChatUserId, rocketChatToken, rocketChatChannel);
+                }
+
+                if (enableWeb && !targetWeb.equals("")) {
+                    Log.d("SMSReceiver", "onReceive: Forwarding Web to " + targetWeb);
                     Forwarder.forwardViaWeb(senderNumber, rawMessageContent, targetWeb);
+                }
             }
         }
     }
