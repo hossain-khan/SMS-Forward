@@ -17,37 +17,21 @@ public class SMSReceiver extends BroadcastReceiver {
         if (!intent.getAction().equals(android.provider.Telephony.Sms.Intents.SMS_RECEIVED_ACTION))
             return;
 
-        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        PreferencesLoader preferencesLoader = new PreferencesLoader(context);
 
-        final boolean enableSMS = sharedPreferences.getBoolean(context.getString(R.string.key_enable_sms), false);
-        final String targetNumber = sharedPreferences.getString(context.getString(R.string.key_target_sms), "");
+        SMSPreferences smsPreferences = preferencesLoader.loadSMSPreferences();
+        WebPreferences webPreferences = preferencesLoader.loadWebPreferences();
+        TelegramPreferences telegramPreferences = preferencesLoader.loadTelegramPreferences();
+        RocketChatPreferences rocketChatPreferences = preferencesLoader.loadRocketChatPreferences();
+        TwilioPreferences twilioPreferences = preferencesLoader.loadTwilioPreferences();
 
-        final boolean enableWeb = sharedPreferences.getBoolean(context.getString(R.string.key_enable_web), false);
-        final String targetWeb = sharedPreferences.getString(context.getString(R.string.key_target_web), "");
+        Log.d("SMSReceiver", "onReceive: enableSMS = " + smsPreferences.getEnableSMS());
+        Log.d("SMSReceiver", "onReceive: enableTelegram = " + telegramPreferences.getEnableTelegram());
+        Log.d("SMSReceiver", "onReceive: enableRocketChat = " + rocketChatPreferences.getEnableRocketChat());
+        Log.d("SMSReceiver", "onReceive: enableWeb = " + webPreferences.getEnableWeb());
+        Log.d("SMSReceiver", "onReceive: enableTwilio = " + twilioPreferences.getEnableTwilio());
 
-        final boolean enableTelegram = sharedPreferences.getBoolean(context.getString(R.string.key_enable_telegram), false);
-        final String targetTelegram = sharedPreferences.getString(context.getString(R.string.key_target_telegram), "");
-        final String telegramToken = sharedPreferences.getString(context.getString(R.string.key_telegram_apikey), "");
-
-        final boolean enableRocketChat = sharedPreferences.getBoolean(context.getString(R.string.key_enable_rocket_chat), false);
-        final String rocketChatBaseUrl = sharedPreferences.getString(context.getString(R.string.key_rocket_chat_base_url), "");
-        final String rocketChatUserId = sharedPreferences.getString(context.getString(R.string.key_rocket_chat_user_id), "");
-        final String rocketChatToken = sharedPreferences.getString(context.getString(R.string.key_rocket_chat_auth_key), "");
-        final String rocketChatChannel = sharedPreferences.getString(context.getString(R.string.key_rocket_chat_channel), "");
-
-        final boolean enableTwilio = sharedPreferences.getBoolean(context.getString(R.string.key_enable_twilio), false);
-        final String twilioAccountSid = sharedPreferences.getString(context.getString(R.string.key_twilio_account_sid), "");
-        final String twilioAuthToken = sharedPreferences.getString(context.getString(R.string.key_twilio_auth_token), "");
-        final String twilioFromNumber = sharedPreferences.getString(context.getString(R.string.key_twilio_from), "");
-        final String twilioToNumber = sharedPreferences.getString(context.getString(R.string.key_twilio_to), "");
-
-        Log.d("SMSReceiver", "onReceive: enableSMS = " + enableSMS);
-        Log.d("SMSReceiver", "onReceive: enableTelegram = " + enableTelegram);
-        Log.d("SMSReceiver", "onReceive: enableRocketChat = " + enableRocketChat);
-        Log.d("SMSReceiver", "onReceive: enableWeb = " + enableWeb);
-        Log.d("SMSReceiver", "onReceive: enableTwilio = " + enableTwilio);
-
-        if (!enableSMS && !enableTelegram && !enableRocketChat && !enableWeb && !enableTwilio) {
+        if (!smsPreferences.getEnableSMS() && !telegramPreferences.getEnableTelegram() && !rocketChatPreferences.getEnableRocketChat() && !webPreferences.getEnableWeb() && !twilioPreferences.getEnableTwilio()) {
             Log.d("SMSReceiver", "onReceive: SMS Forwarding is disabled");
             return;
         } else {
@@ -63,7 +47,7 @@ public class SMSReceiver extends BroadcastReceiver {
             String senderNumber = currentMessage.getDisplayOriginatingAddress();
             String rawMessageContent = currentMessage.getDisplayMessageBody();
 
-            if (senderNumber.equals(targetNumber)) {
+            if (senderNumber.equals(smsPreferences.getTargetNumber())) {
                 // reverse message
                 String formatRegex = "To (\\+?\\d+?):\\n((.|\\n)*)";
                 if (rawMessageContent.matches(formatRegex)) {
@@ -73,38 +57,29 @@ public class SMSReceiver extends BroadcastReceiver {
                 }
             } else {
                 // normal message, forwarded
-                if (enableSMS && !targetNumber.isEmpty()) {
-                    Log.d("SMSReceiver", "onReceive: Forwarding SMS to " + targetNumber);
-                    Forwarder.forwardViaSMS(senderNumber, rawMessageContent, targetNumber);
+                if (smsPreferences.isValid()) {
+                    Log.d("SMSReceiver", "onReceive: Forwarding SMS to " + smsPreferences.getTargetNumber());
+                    Forwarder.forwardViaSMS(senderNumber, rawMessageContent, smsPreferences.getTargetNumber());
                 }
 
-                if (enableTelegram && !targetTelegram.isEmpty() && !telegramToken.isEmpty()) {
-                    Log.d("SMSReceiver", "onReceive: Forwarding Telegram to " + targetTelegram);
-                    Forwarder.forwardViaTelegram(senderNumber, rawMessageContent, targetTelegram, telegramToken);
+                if (telegramPreferences.isValid()) {
+                    Log.d("SMSReceiver", "onReceive: Forwarding Telegram to " + telegramPreferences.getTargetTelegram());
+                    Forwarder.forwardViaTelegram(senderNumber, rawMessageContent, telegramPreferences.getTargetTelegram(), telegramPreferences.getTelegramToken());
                 }
 
-                if (enableRocketChat &&
-                        !rocketChatBaseUrl.isEmpty() &&
-                        !rocketChatUserId.isEmpty() &&
-                        !rocketChatChannel.isEmpty() &&
-                        !rocketChatToken.isEmpty()) {
-                    Log.d("SMSReceiver", "onReceive: Forwarding RocketChat to " + rocketChatChannel);
-                    Forwarder.forwardViaRocketChat(rocketChatBaseUrl, rocketChatUserId, rocketChatToken, rocketChatChannel);
+                if (rocketChatPreferences.isValid()) {
+                    Log.d("SMSReceiver", "onReceive: Forwarding RocketChat to " + rocketChatPreferences.getRocketChatChannel());
+                    Forwarder.forwardViaRocketChat(rocketChatPreferences.getRocketChatBaseUrl(), rocketChatPreferences.getRocketChatUserId(), rocketChatPreferences.getRocketChatToken(), rocketChatPreferences.getRocketChatChannel());
                 }
 
-                if (enableTwilio &&
-                        !twilioAccountSid.isEmpty() &&
-                        !twilioAuthToken.isEmpty() &&
-                        !twilioFromNumber.isEmpty() &&
-                        !twilioToNumber.isEmpty()) {
-                    Log.d("SMSReceiver", "onReceive: Forwarding Twilio to " + twilioToNumber);
-
-                    Forwarder.forwardViaTwilio(twilioAccountSid, twilioAuthToken, twilioFromNumber, twilioToNumber, rawMessageContent);
+                if (twilioPreferences.isValid()) {
+                    Log.d("SMSReceiver", "onReceive: Forwarding Twilio to " + twilioPreferences.getTwilioToNumber());
+                    Forwarder.forwardViaTwilio(twilioPreferences.getTwilioAccountSid(), twilioPreferences.getTwilioAuthToken(), twilioPreferences.getTwilioFromNumber(), twilioPreferences.getTwilioToNumber(), rawMessageContent);
                 }
 
-                if (enableWeb && !targetWeb.isEmpty()) {
-                    Log.d("SMSReceiver", "onReceive: Forwarding Web to " + targetWeb);
-                    Forwarder.forwardViaWeb(senderNumber, rawMessageContent, targetWeb);
+                if (webPreferences.isValid()) {
+                    Log.d("SMSReceiver", "onReceive: Forwarding Web to " + webPreferences.getTargetWeb());
+                    Forwarder.forwardViaWeb(senderNumber, rawMessageContent, webPreferences.getTargetWeb());
                 }
             }
         }
