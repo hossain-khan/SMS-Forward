@@ -36,6 +36,11 @@ public class Forwarder {
         new ForwardTaskForRocketChat(baseUrl, userId, token, channel).execute();
     }
 
+    public static void forwardViaTwilio(String accountSid, String authToken, String fromNumber, String toNumber, String message) {
+        ForwardTaskForTwilio forwardTaskForTwilio = new ForwardTaskForTwilio(accountSid, authToken, fromNumber, toNumber, message);
+        forwardTaskForTwilio.sendTwilioSms();
+    }
+
     public static void forwardViaWeb(String senderNumber, String message, String endpoint) {
         new ForwardTaskForWeb(senderNumber, message, endpoint).execute();
     }

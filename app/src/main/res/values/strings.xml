@@ -35,6 +35,21 @@
     <string name="channel_title_rocket_chat">Channel Name</string>
     <string name="channel_title_rocket_chat_summary">eg. #my-sms</string>
 
+    <!-- Twilio -->
+    <string name="key_enable_twilio">key_enable_twilio</string>
+    <string name="header_twilio">Forward SMS via Twilio</string>
+    <string name="enable_twilio">Enable Twilio</string>
+    <string name="key_twilio_account_sid">key_twilio_account_sid</string>
+    <string name="key_twilio_account_sid_title">Account SID</string>
+    <string name="key_twilio_account_sid_summary">ACaaaaaaaaaaa</string>
+    <string name="key_twilio_auth_token">key_twilio_auth_token</string>
+    <string name="key_twilio_auth_token_title">Auth Token</string>
+    <string name="key_twilio_auth_token_summary">SMbbbbbbbbbbbb</string>
+    <string name="key_twilio_from">key_twilio_from</string>
+    <string name="key_twilio_from_title">Twilio registered sender number</string>
+    <string name="key_twilio_to">key_twilio_to</string>
+    <string name="key_twilio_to_title">Destination phone numbers(s)</string>
+
     <!-- Web -->
     <string name="key_enable_web">key_enable_web</string>
     <string name="header_web">Forward via Web</string>

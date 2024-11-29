@@ -91,8 +91,20 @@ public class MainActivity extends AppCompatActivity {
             updateValues(R.string.key_rocket_chat_base_url, R.string.key_rocket_chat_base_url_summary);
             updateValues(R.string.key_rocket_chat_user_id, R.string.key_rocket_chat_user_id_summary);
             updateValues(R.string.key_rocket_chat_channel, R.string.channel_title_rocket_chat_summary);
+
+            // Preview Twilio values
+            updateValues(R.string.key_twilio_account_sid, R.string.key_twilio_account_sid_summary);
+            updateValues(R.string.key_twilio_auth_token, R.string.key_twilio_auth_token_summary);
+            updateValues(R.string.key_twilio_from, R.string.key_twilio_from_title);
+            updateValues(R.string.key_twilio_to, R.string.key_twilio_to_title);
         }
 
+        /**
+         * Updates the summary of an EditTextPreference with the current value from SharedPreferences.
+         *
+         * @param prefKeyRes            The resource ID of the preference key.
+         * @param prefDefaultSummaryRes The resource ID of the default summary text.
+         */
         public void updateValues(@StringRes int prefKeyRes, @StringRes int prefDefaultSummaryRes) {
             final String prefKey = getString(prefKeyRes);
             String prefSummaryDefault = getString(prefDefaultSummaryRes);

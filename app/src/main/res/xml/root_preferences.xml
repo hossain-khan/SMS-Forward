@@ -94,6 +94,46 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        app:title="@string/header_twilio"
+        app:iconSpaceReserved="false">
+
+        <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
+            android:key="@string/key_enable_twilio"
+            app:title="@string/enable_twilio" />
+        <EditTextPreference
+            android:defaultValue=""
+            android:key="@string/key_twilio_account_sid"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/key_twilio_account_sid_title"
+            app:iconSpaceReserved="false" />
+        <EditTextPreference
+            android:defaultValue=""
+            android:key="@string/key_twilio_auth_token"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/key_twilio_auth_token_title"
+            app:iconSpaceReserved="false" />
+        <EditTextPreference
+            android:defaultValue=""
+            android:key="@string/key_twilio_from"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:inputType="phone"
+            android:title="@string/key_twilio_from_title"
+            app:iconSpaceReserved="false" />
+        <EditTextPreference
+            android:defaultValue=""
+            android:key="@string/key_twilio_to"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/key_twilio_to_title"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
         app:title="@string/header_web"
         app:iconSpaceReserved="false">
 

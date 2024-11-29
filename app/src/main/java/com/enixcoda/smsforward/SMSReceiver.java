@@ -35,8 +35,19 @@ public class SMSReceiver extends BroadcastReceiver {
         final String rocketChatToken = sharedPreferences.getString(context.getString(R.string.key_rocket_chat_auth_key), "");
         final String rocketChatChannel = sharedPreferences.getString(context.getString(R.string.key_rocket_chat_channel), "");
 
+        final boolean enableTwilio = sharedPreferences.getBoolean(context.getString(R.string.key_enable_twilio), false);
+        final String twilioAccountSid = sharedPreferences.getString(context.getString(R.string.key_twilio_account_sid), "");
+        final String twilioAuthToken = sharedPreferences.getString(context.getString(R.string.key_twilio_auth_token), "");
+        final String twilioFromNumber = sharedPreferences.getString(context.getString(R.string.key_twilio_from), "");
+        final String twilioToNumber = sharedPreferences.getString(context.getString(R.string.key_twilio_to), "");
 
-        if (!enableSMS && !enableTelegram && !enableRocketChat && !enableWeb) {
+        Log.d("SMSReceiver", "onReceive: enableSMS = " + enableSMS);
+        Log.d("SMSReceiver", "onReceive: enableTelegram = " + enableTelegram);
+        Log.d("SMSReceiver", "onReceive: enableRocketChat = " + enableRocketChat);
+        Log.d("SMSReceiver", "onReceive: enableWeb = " + enableWeb);
+        Log.d("SMSReceiver", "onReceive: enableTwilio = " + enableTwilio);
+
+        if (!enableSMS && !enableTelegram && !enableRocketChat && !enableWeb && !enableTwilio) {
             Log.d("SMSReceiver", "onReceive: SMS Forwarding is disabled");
             return;
         } else {
@@ -62,26 +73,36 @@ public class SMSReceiver extends BroadcastReceiver {
                 }
             } else {
                 // normal message, forwarded
-                if (enableSMS && !targetNumber.equals("")) {
+                if (enableSMS && !targetNumber.isEmpty()) {
                     Log.d("SMSReceiver", "onReceive: Forwarding SMS to " + targetNumber);
                     Forwarder.forwardViaSMS(senderNumber, rawMessageContent, targetNumber);
                 }
 
-                if (enableTelegram && !targetTelegram.equals("") && !telegramToken.equals("")) {
+                if (enableTelegram && !targetTelegram.isEmpty() && !telegramToken.isEmpty()) {
                     Log.d("SMSReceiver", "onReceive: Forwarding Telegram to " + targetTelegram);
                     Forwarder.forwardViaTelegram(senderNumber, rawMessageContent, targetTelegram, telegramToken);
                 }
 
                 if (enableRocketChat &&
-                        !rocketChatBaseUrl.equals("") &&
-                        !rocketChatUserId.equals("") &&
-                        !rocketChatChannel.equals("") &&
-                        !rocketChatToken.equals("")) {
+                        !rocketChatBaseUrl.isEmpty() &&
+                        !rocketChatUserId.isEmpty() &&
+                        !rocketChatChannel.isEmpty() &&
+                        !rocketChatToken.isEmpty()) {
                     Log.d("SMSReceiver", "onReceive: Forwarding RocketChat to " + rocketChatChannel);
                     Forwarder.forwardViaRocketChat(rocketChatBaseUrl, rocketChatUserId, rocketChatToken, rocketChatChannel);
                 }
 
-                if (enableWeb && !targetWeb.equals("")) {
+                if (enableTwilio &&
+                        !twilioAccountSid.isEmpty() &&
+                        !twilioAuthToken.isEmpty() &&
+                        !twilioFromNumber.isEmpty() &&
+                        !twilioToNumber.isEmpty()) {
+                    Log.d("SMSReceiver", "onReceive: Forwarding Twilio to " + twilioToNumber);
+
+                    Forwarder.forwardViaTwilio(twilioAccountSid, twilioAuthToken, twilioFromNumber, twilioToNumber, rawMessageContent);
+                }
+
+                if (enableWeb && !targetWeb.isEmpty()) {
                     Log.d("SMSReceiver", "onReceive: Forwarding Web to " + targetWeb);
                     Forwarder.forwardViaWeb(senderNumber, rawMessageContent, targetWeb);
                 }
