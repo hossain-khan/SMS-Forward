@@ -4,6 +4,9 @@ Sometimes we have more phone numbers than SIM card slots in the phone we use mos
 
 Calls can be forwarded to a single phone thanks to carriers' call forwarding service. What about SMS messages? This app can handle them. It forwards them between an Android phone and a target phone.
 
+### ℹ️ This is a forked repository 🔖
+⏩ Original repo at **https://github.com/EnixCoda/SMS-Forward**
+
 ## Usages
 1. Receive messages
 ![image](https://user-images.githubusercontent.com/7480839/154650144-1e0bdf7b-a42c-48d3-a84d-46b614496dfb.png)
