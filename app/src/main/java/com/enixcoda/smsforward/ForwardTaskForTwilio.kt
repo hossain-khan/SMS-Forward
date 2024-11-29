@@ -31,6 +31,8 @@ class ForwardTaskForTwilio(
     private val client = OkHttpClient()
 
     fun sendTwilioSms() {
+        Log.d("TwilioTask", "Sending SMS using Twilio API")
+
         /**
          * Twilio API URL for sending SMS
          *

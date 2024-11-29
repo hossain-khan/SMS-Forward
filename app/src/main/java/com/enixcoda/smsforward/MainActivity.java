@@ -71,6 +71,9 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         } else {
             Log.i("MainActivity", "checkDefaultSmsApp: Default SMS app is already set");
+
+            // Test the SMS forwarding using one of the services
+            // REFACTOR NEEDED
         }
     }
 
