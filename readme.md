@@ -11,8 +11,8 @@ Calls can be forwarded to a single phone thanks to carriers' call forwarding ser
 * <img width="18" src="https://github.com/user-attachments/assets/066985e5-3f85-4dfe-a6be-98da353a96ba"/> Rocket.Chat (_new_)
 * <img width="18" src="https://github.com/user-attachments/assets/956f1132-798a-4489-b645-5b7467516b13"/> Twilio (_new_)
 
-### ℹ️ This is a forked repository 🔖
-⏩ Original repo at **https://github.com/EnixCoda/SMS-Forward**
+> 🔖 This is a forked repository 
+> ⏩ Original repo at **https://github.com/EnixCoda/SMS-Forward**
 
 ## Usages
 1. Receive messages
