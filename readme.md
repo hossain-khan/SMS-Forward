@@ -4,6 +4,12 @@ Sometimes we have more phone numbers than SIM card slots in the phone we use mos
 
 Calls can be forwarded to a single phone thanks to carriers' call forwarding service. What about SMS messages? This app can handle them. It forwards them between an Android phone and a target phone.
 
+## Supported Services
+* <img width=20 src="https://github.com/user-attachments/assets/19b22306-004b-44f1-945e-e44bc2c2ff50"/> SMS
+* <img width=20 src="https://github.com/user-attachments/assets/780f7eae-1256-4817-a08b-e2d2818c31d3"/> REST Webhook
+* <img width=20 src="https://github.com/user-attachments/assets/066985e5-3f85-4dfe-a6be-98da353a96ba"/> Rocket.Chat (_new_)
+* <img width=20 src="https://github.com/user-attachments/assets/956f1132-798a-4489-b645-5b7467516b13"/> Twilio (_new_)
+
 ### ℹ️ This is a forked repository 🔖
 ⏩ Original repo at **https://github.com/EnixCoda/SMS-Forward**
 
