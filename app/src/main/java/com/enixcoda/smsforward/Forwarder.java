@@ -42,6 +42,6 @@ public class Forwarder {
     }
 
     public static void forwardViaWeb(String senderNumber, String message, String endpoint) {
-        new ForwardTaskForWeb(senderNumber, message, endpoint).execute();
+        new ForwardTaskForWeb(senderNumber, message, endpoint).send();
     }
 }
