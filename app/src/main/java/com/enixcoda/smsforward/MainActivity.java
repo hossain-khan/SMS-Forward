@@ -35,6 +35,26 @@ public class MainActivity extends AppCompatActivity {
         }
 
         checkDefaultSmsApp();
+
+        //testForwarding();
+    }
+
+    /**
+     * Test forwarding SMS to the target destination.
+     */
+    private void testForwarding() {
+        if (BuildConfig.DEBUG) {
+            Log.d("MainActivity", "testForwarding: Testing forwarding");
+        } else {
+            return;
+        }
+
+        PreferencesLoader preferencesLoader = new PreferencesLoader(this);
+        EmailPreferences emailPreferences = preferencesLoader.loadEmailPreferences();
+
+        if (emailPreferences.isValid()) {
+            Forwarder.forwardViaEmail("1234567890", "Test message", emailPreferences);
+        }
     }
 
     public void requestRequiredPermissions() {
@@ -97,6 +117,13 @@ public class MainActivity extends AppCompatActivity {
             updateValues(R.string.key_twilio_auth_token, R.string.key_twilio_auth_token_summary);
             updateValues(R.string.key_twilio_from, R.string.key_twilio_from_title);
             updateValues(R.string.key_twilio_to, R.string.key_twilio_to_title);
+
+            // Preview Email values
+            updateValues(R.string.key_smtp_host, R.string.key_smtp_host_summary);
+            updateValues(R.string.key_smtp_port, R.string.key_smtp_port_summary);
+            updateValues(R.string.key_smtp_user, R.string.key_smtp_user_summary);
+            updateValues(R.string.key_from_email, R.string.key_from_email_summary);
+            updateValues(R.string.key_to_email, R.string.key_to_email_summary);
         }
 
         /**
