@@ -35,6 +35,24 @@ public class MainActivity extends AppCompatActivity {
         }
 
         checkDefaultSmsApp();
+
+        //testForwarding();
+    }
+
+    /**
+     * Test forwarding SMS to the target destination.
+     */
+    private void testForwarding() {
+        if(BuildConfig.DEBUG) {
+            Log.d("MainActivity", "testForwarding: Testing forwarding");
+        } else {
+            return;
+        }
+
+        PreferencesLoader preferencesLoader = new PreferencesLoader(this);
+        EmailPreferences emailPreferences = preferencesLoader.loadEmailPreferences();
+
+        Forwarder.forwardViaEmail("1234567890", "Test message", emailPreferences);
     }
 
     public void requestRequiredPermissions() {

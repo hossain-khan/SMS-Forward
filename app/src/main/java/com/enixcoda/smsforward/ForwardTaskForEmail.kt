@@ -1,6 +1,9 @@
 package com.enixcoda.smsforward
 
 import android.util.Log
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.Properties
 import javax.mail.Message
 import javax.mail.MessagingException
@@ -40,10 +43,10 @@ class ForwardTaskForEmail(
             put("mail.smtp.host", smtpHost)
             put("mail.smtp.port", smtpPort)
             put("mail.smtp.auth", "true")
-            put("mail.smtp.connectiontimeout", "10000");
-            put("mail.smtp.timeout", "10000");
-            put("mail.smtp.writetimeout", "10000");
-            put("mail.smtp.allow8bitmime", "true");
+            put("mail.smtp.connectiontimeout", "10000")
+            put("mail.smtp.timeout", "10000")
+            put("mail.smtp.writetimeout", "10000")
+            put("mail.smtp.allow8bitmime", "true")
             put("mail.smtp.starttls.enable", "true")
         }
 
@@ -53,18 +56,20 @@ class ForwardTaskForEmail(
             }
         })
 
-        try {
-            val message = MimeMessage(session).apply {
-                setFrom(InternetAddress(fromEmail))
-                setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail))
-                subject = emailSubject
-                setText(emailBody)
-            }
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val message = MimeMessage(session).apply {
+                    setFrom(InternetAddress(fromEmail))
+                    setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail))
+                    subject = emailSubject
+                    setText(emailBody)
+                }
 
-            Transport.send(message)
-            Log.d("EmailTask", "Email sent successfully.")
-        } catch (e: MessagingException) {
-            Log.e("EmailTask", "Failed to send email: ${e.message}", e)
+                Transport.send(message)
+                Log.d("EmailTask", "Email sent successfully.")
+            } catch (e: MessagingException) {
+                Log.e("EmailTask", "Failed to send email: ${e.message}", e)
+            }
         }
     }
 }
