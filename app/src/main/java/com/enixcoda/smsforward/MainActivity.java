@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
      * Test forwarding SMS to the target destination.
      */
     private void testForwarding() {
-        if(BuildConfig.DEBUG) {
+        if (BuildConfig.DEBUG) {
             Log.d("MainActivity", "testForwarding: Testing forwarding");
         } else {
             return;
@@ -52,7 +52,9 @@ public class MainActivity extends AppCompatActivity {
         PreferencesLoader preferencesLoader = new PreferencesLoader(this);
         EmailPreferences emailPreferences = preferencesLoader.loadEmailPreferences();
 
-        Forwarder.forwardViaEmail("1234567890", "Test message", emailPreferences);
+        if (emailPreferences.isValid()) {
+            Forwarder.forwardViaEmail("1234567890", "Test message", emailPreferences);
+        }
     }
 
     public void requestRequiredPermissions() {
