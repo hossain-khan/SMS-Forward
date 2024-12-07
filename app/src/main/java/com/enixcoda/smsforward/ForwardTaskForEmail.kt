@@ -19,8 +19,8 @@ import javax.mail.internet.MimeMessage
  * @property smtpPassword The SMTP server password.
  * @property fromEmail The email address from which the email is sent.
  * @property toEmail The email address to which the email is sent.
- * @property subject The subject of the email.
- * @property body The body content of the email.
+ * @property emailSubject The subject of the email.
+ * @property emailBody The body content of the email.
  */
 class ForwardTaskForEmail(
     private val smtpHost: String,
@@ -29,8 +29,8 @@ class ForwardTaskForEmail(
     private val smtpPassword: String,
     private val fromEmail: String,
     private val toEmail: String,
-    private val subject: String,
-    private val body: String
+    private val emailSubject: String,
+    private val emailBody: String
 ) {
     /**
      * Sends the email using the provided SMTP server details.
@@ -40,6 +40,10 @@ class ForwardTaskForEmail(
             put("mail.smtp.host", smtpHost)
             put("mail.smtp.port", smtpPort)
             put("mail.smtp.auth", "true")
+            put("mail.smtp.connectiontimeout", "10000");
+            put("mail.smtp.timeout", "10000");
+            put("mail.smtp.writetimeout", "10000");
+            put("mail.smtp.allow8bitmime", "true");
             put("mail.smtp.starttls.enable", "true")
         }
 
@@ -53,8 +57,8 @@ class ForwardTaskForEmail(
             val message = MimeMessage(session).apply {
                 setFrom(InternetAddress(fromEmail))
                 setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail))
-                subject = this@ForwardTaskForEmail.subject
-                setText(body)
+                subject = emailSubject
+                setText(emailBody)
             }
 
             Transport.send(message)
