@@ -9,8 +9,18 @@ import android.util.Log;
 
 import androidx.annotation.Keep;
 
+/**
+ * BroadcastReceiver to handle incoming SMS messages and forward them via various methods.
+ */
 @Keep
 public class SMSReceiver extends BroadcastReceiver {
+
+    /**
+     * Called when an SMS message is received.
+     *
+     * @param context The Context in which the receiver is running.
+     * @param intent  The Intent being received.
+     */
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.d("SMSReceiver", "onReceive: action " + intent.getAction());
@@ -24,12 +34,14 @@ public class SMSReceiver extends BroadcastReceiver {
         TelegramPreferences telegramPreferences = preferencesLoader.loadTelegramPreferences();
         RocketChatPreferences rocketChatPreferences = preferencesLoader.loadRocketChatPreferences();
         TwilioPreferences twilioPreferences = preferencesLoader.loadTwilioPreferences();
+        EmailPreferences emailPreferences = preferencesLoader.loadEmailPreferences();
 
         Log.d("SMSReceiver", "onReceive: enableSMS = " + smsPreferences.getEnableSMS());
         Log.d("SMSReceiver", "onReceive: enableTelegram = " + telegramPreferences.getEnableTelegram());
         Log.d("SMSReceiver", "onReceive: enableRocketChat = " + rocketChatPreferences.getEnableRocketChat());
         Log.d("SMSReceiver", "onReceive: enableWeb = " + webPreferences.getEnableWeb());
         Log.d("SMSReceiver", "onReceive: enableTwilio = " + twilioPreferences.getEnableTwilio());
+        Log.d("SMSReceiver", "onReceive: enableEmail = " + emailPreferences.getEnableEmail());
 
         if (!smsPreferences.getEnableSMS() && !telegramPreferences.getEnableTelegram() && !rocketChatPreferences.getEnableRocketChat() && !webPreferences.getEnableWeb() && !twilioPreferences.getEnableTwilio()) {
             Log.d("SMSReceiver", "onReceive: SMS Forwarding is disabled");
@@ -56,7 +68,8 @@ public class SMSReceiver extends BroadcastReceiver {
                     Forwarder.sendSMS(forwardNumber, forwardContent);
                 }
             } else {
-                // normal message, forwarded
+                // normal message, forward via all enabled methods
+
                 if (smsPreferences.isValid()) {
                     Log.d("SMSReceiver", "onReceive: Forwarding SMS to " + smsPreferences.getTargetNumber());
                     Forwarder.forwardViaSMS(senderNumber, rawMessageContent, smsPreferences.getTargetNumber());
@@ -80,6 +93,11 @@ public class SMSReceiver extends BroadcastReceiver {
                 if (webPreferences.isValid()) {
                     Log.d("SMSReceiver", "onReceive: Forwarding Web to " + webPreferences.getTargetWeb());
                     Forwarder.forwardViaWeb(senderNumber, rawMessageContent, webPreferences.getTargetWeb());
+                }
+
+                if (webPreferences.isValid()) {
+                    Log.d("SMSReceiver", "onReceive: Forwarding Email to " + emailPreferences.getToEmail());
+                    Forwarder.forwardViaEmail(senderNumber, rawMessageContent, emailPreferences);
                 }
             }
         }

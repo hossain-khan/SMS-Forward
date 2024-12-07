@@ -44,4 +44,17 @@ public class Forwarder {
     public static void forwardViaWeb(String senderNumber, String message, String endpoint) {
         new ForwardTaskForWeb(senderNumber, message, endpoint).send();
     }
+
+    public static void forwardViaEmail(String senderNumber, String message, EmailPreferences emailPref) {
+        new ForwardTaskForEmail(
+                emailPref.getSmtpHost(),
+                emailPref.getSmtpPort(),
+                emailPref.getSmtpUser(),
+                emailPref.getSmtpPassword(),
+                emailPref.getFromEmail(),
+                emailPref.getToEmail(),
+                "Forwarded SMS message from " + senderNumber,
+                message
+        ).send();
+    }
 }

@@ -121,3 +121,39 @@ data class TwilioPreferences(
                 twilioToNumber.isNotEmpty()
     }
 }
+
+/**
+ * Data class representing Email preferences.
+ *
+ * @property enableEmail Boolean indicating if Email is enabled.
+ * @property smtpHost The SMTP host for Email.
+ * @property smtpPort The SMTP port for Email.
+ * @property smtpUser The SMTP user for Email.
+ * @property smtpPassword The SMTP password for Email.
+ * @property fromEmail The sender email address.
+ * @property toEmail The recipient email address.
+ */
+data class EmailPreferences(
+    val enableEmail: Boolean,
+    val smtpHost: String,
+    val smtpPort: String,
+    val smtpUser: String,
+    val smtpPassword: String,
+    val fromEmail: String,
+    val toEmail: String
+) {
+    /**
+     * Checks if Email preferences are valid.
+     *
+     * @return Boolean indicating if Email preferences are valid.
+     */
+    fun isValid(): Boolean {
+        return enableEmail &&
+                smtpHost.isNotEmpty() &&
+                smtpPort.isNotEmpty() &&
+                smtpUser.isNotEmpty() &&
+                smtpPassword.isNotEmpty() &&
+                fromEmail.isNotEmpty() &&
+                toEmail.isNotEmpty()
+    }
+}

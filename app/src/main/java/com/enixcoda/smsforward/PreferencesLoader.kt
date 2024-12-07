@@ -77,4 +77,21 @@ class PreferencesLoader(private val context: Context) {
             twilioToNumber = sharedPreferences.getString(context.getString(R.string.key_twilio_to), "") ?: ""
         )
     }
+
+    /**
+     * Loads the Email preferences from the shared preferences.
+     *
+     * @return An instance of [EmailPreferences] containing the loaded preferences.
+     */
+    fun loadEmailPreferences(): EmailPreferences {
+        return EmailPreferences(
+            enableEmail = sharedPreferences.getBoolean(context.getString(R.string.key_enable_email), false),
+            smtpHost = sharedPreferences.getString(context.getString(R.string.key_smtp_host), "") ?: "",
+            smtpPort = sharedPreferences.getString(context.getString(R.string.key_smtp_port), "") ?: "",
+            smtpUser = sharedPreferences.getString(context.getString(R.string.key_smtp_user), "") ?: "",
+            smtpPassword = sharedPreferences.getString(context.getString(R.string.key_smtp_password), "") ?: "",
+            fromEmail = sharedPreferences.getString(context.getString(R.string.key_from_email), "") ?: "",
+            toEmail = sharedPreferences.getString(context.getString(R.string.key_to_email), "") ?: ""
+        )
+    }
 }

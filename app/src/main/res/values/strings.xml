@@ -57,4 +57,28 @@
     <string name="key_target_web">key_target_web</string>
     <string name="target_title_web">Target Web URL</string>
     <string name="target_summary_web">Example: https://site.com/api\nThis app will send POST request on receive SMS, request body example:\n{ "from": "10000", "message": "Hello" }</string>
+
+    <!-- Email -->
+    <string name="key_enable_email">key_enable_email</string>
+    <string name="header_email">Forward via Email</string>
+    <string name="enable_email">Enable Email</string>
+    <string name="key_smtp_host">key_smtp_host</string>
+    <string name="key_smtp_host_title">SMTP Host</string>
+    <string name="key_smtp_host_summary">Eg. smtp.gmail.com</string>
+    <string name="key_smtp_port">key_smtp_port</string>
+    <string name="key_smtp_port_title">SMTP Port</string>
+    <string name="key_smtp_port_summary">Eg. 587</string>
+    <string name="key_smtp_user">key_smtp_user</string>
+    <string name="key_smtp_user_title">SMTP User</string>
+    <string name="key_smtp_user_summary">Eg. user@email.com</string>
+    <string name="key_smtp_password">key_smtp_password</string>
+    <string name="key_smtp_password_title">SMTP Password</string>
+    <string name="key_smtp_password_summary">Eg. password</string>
+    <string name="key_from_email">key_from_email</string>
+    <string name="key_from_email_title">From Email</string>
+    <string name="key_from_email_summary">Eg. me@email.com</string>
+    <string name="key_to_email">key_to_email</string>
+    <string name="key_to_email_title">To Email</string>
+    <string name="key_to_email_summary">Eg. destination@email.com</string>
+
 </resources>
