@@ -16,7 +16,7 @@ Calls can be forwarded to a single phone thanks to carriers' call forwarding ser
 > ⏩ Original repo at **https://github.com/EnixCoda/SMS-Forward**
 
 ### 🛡️ Safety
-Since this app can send SMS on user's behalf, it has been flagged by Google Play recently. Please be aware of this known issue. Feel free to take a look into the source code of independent assesmsment.
+Since this app can send SMS on user's behalf, it has been flagged by Google Play recently. Please be aware of this known issue. Feel free to take a look into the source code for independent assesmsment.
 
 <img src="sms-forward-play-protect-warning.png" width=600>
 
